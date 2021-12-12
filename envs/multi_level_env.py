@@ -135,12 +135,10 @@ class MultiLevelEnv(gym.Wrapper):
             # if reach subgoal, return control, take high-level action
             if (hi_action == 0 and d_pos < self.env.env.distance_threshold) or \
                     (hi_action == 1 and d_rot < self.env.env.rotation_threshold):
-                # done_final = (done or bool(success))
                 break
 
             # if reach env goal, return control
             if done or success:
-                # done_final = True
                 break
 
         # # reach max steps, not set done as True

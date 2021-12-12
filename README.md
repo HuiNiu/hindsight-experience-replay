@@ -50,28 +50,33 @@ python train_hier_dqn.py --env-name='HandManipulateBlock500-v0' --pos_path='Succ
 --rot_path='Success_HandManipulateBlockRotateXYZ-v0_hier_False' --n-epochs=50000 --replay-strategy='none'
 
 # change n_substeps to 25
-python train_hier_dqn.py --env-name='HandManipulateBlockEp400Sim25-v0' --pos_path='HandManipulateBlockPosEp80Sim25-v0_hier_False' \
---rot_path='RotateXYZEp80Sim25-v0_hier_False' --n-epochs=50000
+python train_hier_dqn.py --env-name='HandManipulateBlockEp400Sim25-v0' --pos_path='HandBlockFixedRotationPos25-v0_Dec11_12-57-34_hier_False' \
+--rot_path='HandBlockFixedPosRotateXYZ25-v0_Dec11_12-57-21_hier_False' --n-epochs=50000
 
 # rotation skill, flat
 mpirun -np 16 python -u train.py --env-name='HandManipulateBlockRotateXYZ-v0' --n-epochs=200 
 
 mpirun -np 16 python -u train.py --env-name='HandManipulateBlockRotateXYZEp80Sim25-v0' --n-epochs=200 
 
-mpirun -np 8 python -u train.py --env-name='HandManipulateBlockRotateXYZEp50Sim40-v0' --n-epochs=200 
+mpirun -np 16 python -u train.py --env-name='HandBlockFixedPosRotateXYZ25-v0' --n-epochs=500 
 
 # target is qpos, flat
 mpirun -np 8 python -u train.py --env-name='HandManipulateBlockPos-v0' --n-epochs=200 
 
 mpirun -np 8 python -u train.py --env-name='HandManipulateBlockPosEp80Sim25-v0' --n-epochs=200 
 
-mpirun -np 8 python -u train.py --env-name='HandManipulateBlockPosEp50Sim40-v0' --n-epochs=200 
+mpirun -np 16 python -u train.py --env-name='HandBlockFixedRotationPos25-v0' --n-epochs=500 
 
 
 ### Play Demo
 ```bash
-
+# eval low-level
 python demo.py --env-name=HandManipulateBlockFull-v0 --model_path="saved_models/HandManipulateBlockFull-v0_Dec01_17-08-38_hier_False"
+
+# eval high level
+python train_hier_dqn.py --env-name='HandManipulateBlockRotateXYZ-v0' --pos_path='Success_HandPos_flat' \
+--rot_path='Success_HandManipulateBlockRotateXYZ-v0_hier_False' --resume_path='HandManipulateBlockRotateXYZ-v0Dec05_17-35-54_hier_True' \
+--save 0
 
 ```
 ### Download the Pre-trained Model
